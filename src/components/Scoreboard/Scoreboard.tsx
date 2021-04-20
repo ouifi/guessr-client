@@ -31,7 +31,7 @@ const Scoreboard = () => {
                                     title = "You did not finish this one";
                                     backgroundColor = "darkblue";
                                 }
-                                return <Pill style={{ backgroundColor: backgroundColor }} className="scoreboard-pill" title={title}>{r}: {rData.guesses}</Pill>;
+                                return <Pill style={{ backgroundColor: backgroundColor }} className="scoreboard-pill" title={title} key={r}>{r}: {rData.guesses}</Pill>;
                             }
                         ) 
                         : <p style={{ fontSize:"smaller"}}>Nothing here yet!</p>
