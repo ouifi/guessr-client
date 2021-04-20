@@ -82,6 +82,7 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
                                         aria-describedby="r-slash"
                                         value={guessText}
                                         onChange={(event) => { setGuessText(event.target.value); }}
+                                        onKeyPress={(keyEvent: React.KeyboardEvent<HTMLInputElement>) => { if (keyEvent.key === "Enter") { submitGuess(); } }}
                                     />
                                     <InputGroup.Append>
                                         <Button
