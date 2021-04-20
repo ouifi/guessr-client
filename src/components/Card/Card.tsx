@@ -6,10 +6,11 @@ import './Card.css';
 
 type CardProps = {
     children: React.ReactNode,
+    title?: string,
     imageLink: string | null
 };
 
-const Card = ({ children, imageLink }: CardProps) => {
+const Card = ({ children, imageLink, title }: CardProps) => {
 
     const [showImageModal, setShowImageModal] = useState(false);
 
@@ -29,7 +30,7 @@ const Card = ({ children, imageLink }: CardProps) => {
                             </Col>
                         </Row>
                         {
-                            showImageModal && <SimpleModal show={showImageModal} onClose={() => { setShowImageModal(false); }}>
+                            showImageModal && <SimpleModal show={showImageModal} onClose={() => { setShowImageModal(false); }} title={title}>
                                 <div className="image-wrapper">
                                     <img src={imageLink} alt="Reddit post preview" />
                                 </div>
