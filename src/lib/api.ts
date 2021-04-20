@@ -1,10 +1,10 @@
 let baseURL = "";
 if (process.env.NODE_ENV === "production") {
     const urlPieces = window.location.hostname.split(".");
-    if (urlPieces.length === 2) {
+    if (urlPieces.length < 4) {
         baseURL = `https://api.${window.location.hostname}`;
-    } else if (urlPieces.length === 3) {
-        baseURL = "https://api.ouifi.io/";
+    } else {
+        baseURL = "https://api.ouifi.io/"; // If in a staging frontend environment, use the prod api
     }
 } else {
     baseURL = `/api`;
