@@ -73,7 +73,7 @@ function App() {
                                             </p>
                                         </Col>
                                     </Row>
-                                    <Button onClick={newGame} size="lg">
+                                    <Button onClick={() => { setHasError(false); newGame(); }} size="lg">
                                         Reload
                                     </Button>
                                 </Container>
