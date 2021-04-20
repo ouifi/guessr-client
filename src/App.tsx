@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import './App.css';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Clues, { PostData } from './components/Clues/Clues';
 import Submission from './components/Submission/Submission';
 import Spinner from './components/Spinner/Spinner';
 import ScoreboardProvider from './contexts/ScoreboardContext';
+
+import API from './lib/api';
+
+import './App.css';
 
 type AppData = {
     subreddit: string,
@@ -22,7 +25,7 @@ function App() {
     const newGame = useCallback(
         () => {
             setData(initialState);
-            fetch("/api/newgame")
+            API.get("/newgame")
                 .then(
                     (res) => {
                         if (res.ok) {
