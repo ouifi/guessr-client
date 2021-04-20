@@ -1,6 +1,11 @@
 let baseURL = "";
 if (process.env.NODE_ENV === "production") {
-    baseURL = `https://api.${window.location.hostname}`;
+    const urlPieces = window.location.hostname.split(".");
+    if (urlPieces.length === 2) {
+        baseURL = `https://api.${window.location.hostname}`;
+    } else if (urlPieces.length === 3) {
+        baseURL = "https://api.ouifi.io/";
+    }
 } else {
     baseURL = `/api`;
 }
