@@ -7,7 +7,9 @@ import useColorFlash from '../../hooks/useColorFlash';
 import './Submission.css';
 
 function checkGuess(guessText: string, answerText: string) {
-    return guessText.toLocaleLowerCase() === answerText.toLocaleLowerCase();
+    const cleanAnswerText = answerText.toLocaleLowerCase().replaceAll("_", "");
+    const cleanGuessText = guessText.toLocaleLowerCase().replaceAll("_", "");
+    return cleanAnswerText === cleanGuessText;
 }
 
 const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGame: () => void }) => {
