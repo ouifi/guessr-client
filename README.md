@@ -5,6 +5,10 @@
 - [Technologies Used](#technologies-used)
 - [Learn More](#learn-more)
 
+<p align="center">
+    <img id="image" src="./logo.png" width="20%">
+</p>
+
 # Shoutout to CRA
 
 This project was create with [Create React App](https://github.com/facebook/create-react-app).
