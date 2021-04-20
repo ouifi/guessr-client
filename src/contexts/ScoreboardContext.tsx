@@ -19,6 +19,7 @@ type ScoreboardContextType = {
     setEntry: (newData: ScoreboardData) => ScoreboardData
     saveScore: (subreddit: string, guesses: number, correct: GameCorrect) => string
     saveNewScore: (subreddit: string, guesses: number, correct: GameCorrect) => string
+    resetScoreboard: () => void
 
 }
 
@@ -26,7 +27,8 @@ const ScoreboardContext = React.createContext<ScoreboardContextType>({
     scoreboard: {},
     setEntry: (newData: ScoreboardData) => (newData),
     saveScore: (subreddit: string, guesses: number, correct: GameCorrect) => subreddit,
-    saveNewScore: (subreddit: string, guesses: number, correct: GameCorrect) => subreddit
+    saveNewScore: (subreddit: string, guesses: number, correct: GameCorrect) => subreddit,
+    resetScoreboard: () => undefined
 });
 
 const ScoreboardProvider = ({ children }: { children: React.ReactNode }) => {
@@ -98,7 +100,15 @@ const ScoreboardProvider = ({ children }: { children: React.ReactNode }) => {
         []
     );
 
-    return <ScoreboardContext.Provider value={{ scoreboard: scoreboardState, setEntry: setSubredditEntry, saveScore: saveScore, saveNewScore: saveNewScore }}>
+    const resetScoreboard = useCallback(
+        () => {
+            setScoreboardState({});
+            localStorage.setItem("scoreboard", JSON.stringify({}));
+        },
+        []
+    );
+
+    return <ScoreboardContext.Provider value={{ scoreboard: scoreboardState, setEntry: setSubredditEntry, saveScore: saveScore, saveNewScore: saveNewScore, resetScoreboard: resetScoreboard }}>
         {children}
     </ScoreboardContext.Provider>;
 };
