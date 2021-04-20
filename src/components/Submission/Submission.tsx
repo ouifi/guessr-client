@@ -25,8 +25,8 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
 
     const checkGuess = useCallback(
         (guessText: string, answerText: string) => {
-            const cleanAnswerText = answerText.toLocaleLowerCase().replaceAll("_", "");
-            const cleanGuessText = guessText.toLocaleLowerCase().replaceAll("_", "");
+            const cleanAnswerText = answerText.toLowerCase().replaceAll("_", "");
+            const cleanGuessText = guessText.toLowerCase().replaceAll("_", "");
 
             if (
                 cleanAnswerText.includes(cleanGuessText)  // Is the guess a subset of the full answer?
@@ -104,6 +104,7 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
                                         value={guessText}
                                         onChange={(event) => { setGuessText(event.target.value); }}
                                         onKeyPress={(keyEvent: React.KeyboardEvent<HTMLInputElement>) => { if (keyEvent.key === "Enter") { submitGuess(); } }}
+                                        autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" // Disable all validation
                                     />
                                     <InputGroup.Append>
                                         <Button
