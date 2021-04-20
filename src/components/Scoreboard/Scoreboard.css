@@ -1,0 +1,12 @@
+#scoreboard h3 {
+    margin-top: 25px;
+}
+
+#scoreboard {
+    margin-bottom: 20px;
+}
+
+.scoreboard-pill {
+    font-size: small;
+    margin: 1px
+}

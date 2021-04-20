@@ -1,0 +1,11 @@
+.num-guesses {
+    margin-top: 3px;
+    font-size: 1.44rem;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+    .answer-text {
+        font-size: 2rem;
+    }
+} 

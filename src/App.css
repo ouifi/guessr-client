@@ -1,0 +1,15 @@
+.App {
+    text-align: center;
+}
+
+.header-footer-common {
+    background-color: coral;
+    display: flex;
+
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.spinner-spaced {
+    margin-top: 100px;
+}

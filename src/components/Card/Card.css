@@ -1,0 +1,32 @@
+.card-outer {
+    border: 1px solid lightblue;
+    margin: 5px;
+    border-radius: 8px;
+    background: rgb(149, 230, 247);
+}
+
+.card-outer {
+    margin: 10px;
+    font-weight: normal;
+}
+
+.image-wrapper img {
+    width: 100%;
+}
+
+.image-bordered img {
+    border: 2px white;
+    border-style: ridge;
+    border-radius: 5px;
+}
+
+.image-wrapper {
+    padding: 5px 0px 5px 0px;
+}
+
+.image-wrapper-wrapper {
+    /* style={{ display: "flex", flexDirection: "column", justifyContent: "center" }} */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

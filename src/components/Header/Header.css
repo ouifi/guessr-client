@@ -1,0 +1,30 @@
+.header {
+    min-height: 20vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#how-to-play {
+    font-size: initial;
+}
+
+#how-to-play h3 {
+    margin-top: 25px;
+}
+
+#logo {
+    margin-top: 50px;
+    font-size: 200%;
+}
+
+#logo a {
+    color: white
+}
+
+@media screen and (max-width: 768px) {
+    #logo {
+        font-size: 275%;
+        color: white
+    }
+} 

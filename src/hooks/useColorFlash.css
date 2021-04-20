@@ -1,0 +1,5 @@
+
+@keyframes flash {
+    from {background-color: rgba(0, 0, 0, 0.25);}
+    to {background-color: rgba(0, 0, 0, 0)}
+}

@@ -1,0 +1,16 @@
+.footer {
+    min-height: 10vh;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#disclaimer {
+    font-size: small;
+}
+
+#github {
+    text-align: center;
+    color: white;
+    text-decoration-line: underline;
+}
