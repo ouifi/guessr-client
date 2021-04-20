@@ -11,13 +11,14 @@
 }
 
 .image-wrapper img {
-    width: 100%;
+    max-width: 100%;
 }
 
 .image-bordered img {
     border: 2px white;
     border-style: ridge;
     border-radius: 5px;
+    width: 100%;
 }
 
 .image-wrapper {

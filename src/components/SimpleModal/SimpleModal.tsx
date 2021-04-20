@@ -14,7 +14,7 @@ const SimpleModal = ({ children, title, show, onClose }: { children: ReactNode, 
                             {title}
                         </Modal.Title>
                     </Modal.Header>
-                    : null
+                    : <Modal.Header closeButton/>
             }
             <Modal.Body>
                 {children}
