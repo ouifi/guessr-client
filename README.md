@@ -11,7 +11,7 @@
 
 # Shoutout to CRA
 
-This project was create with [Create React App](https://github.com/facebook/create-react-app).
+This project was created with [Create React App](https://github.com/facebook/create-react-app).
 
 # Running the project
 
