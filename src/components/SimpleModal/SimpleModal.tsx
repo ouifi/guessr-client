@@ -10,7 +10,7 @@ const SimpleModal = ({ children, title, show, onClose }: { children: ReactNode, 
             {
                 title
                     ? <Modal.Header closeButton>
-                        <Modal.Title>
+                        <Modal.Title className="modal-title-text">
                             {title}
                         </Modal.Title>
                     </Modal.Header>
