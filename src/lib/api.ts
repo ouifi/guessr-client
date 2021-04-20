@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === "production") {
     if (urlPieces.length < 4) {
         baseURL = `https://api.${window.location.hostname}`;
     } else {
-        baseURL = "https://api.ouifi.io/"; // If in a staging frontend environment, use the prod api
+        baseURL = "https://api.ouifi.io"; // If in a staging frontend environment, use the prod api
     }
 } else {
     baseURL = `/api`;
