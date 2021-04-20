@@ -8,11 +8,11 @@ import './Scoreboard.css';
 
 const Scoreboard = () => {
 
-    const { scoreboard } = useContext(ScoreboardContext);
+    const { scoreboard, resetScoreboard } = useContext(ScoreboardContext);
 
     return (
         <Container id="scoreboard">
-            <h3>Your Scoreboard</h3>
+            <h3>Your Scoreboard <span id="clear-scoreboard" onClick={resetScoreboard}>(clear)</span></h3>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly", flexWrap: "wrap" }}>
                 {
                     Object.keys(scoreboard).length
@@ -31,7 +31,7 @@ const Scoreboard = () => {
                                     title = "You did not finish this one";
                                     backgroundColor = "darkblue";
                                 }
-                                return <Pill style={{ backgroundColor: backgroundColor }} className="scoreboard-pill" title={title}>{r}: {rData.guesses}</Pill>;
+                                return <Pill style={{ backgroundColor: backgroundColor }} className="scoreboard-pill" title={title} key={r}>{r}: {rData.guesses}</Pill>;
                             }
                         ) 
                         : <p style={{ fontSize:"smaller"}}>Nothing here yet!</p>

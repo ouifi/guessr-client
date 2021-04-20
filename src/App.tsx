@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Container, Button, Row, Col } from 'react-bootstrap';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -16,23 +17,18 @@ type AppData = {
     posts: PostData[]
 };
 
-const initialState:AppData = { subreddit: "", posts: [] };
+const initialState: AppData = { subreddit: "", posts: [] };
 
 function App() {
 
     const [data, setData] = useState<AppData>(initialState);
+    const [hasError, setHasError] = useState(false);
 
     const newGame = useCallback(
         () => {
             setData(initialState);
-            API.get("/newgame")
+            API.newGame()
                 .then(
-                    (res) => {
-                        if (res.ok) {
-                            return res.json();
-                        }
-                    }
-                ).then(
                     (body) => {
                         setData(body);
                     }
@@ -40,6 +36,7 @@ function App() {
                     (err) => {
                         console.error(err);
                         setData(initialState);
+                        setHasError(true);
                     }
                 );
         },
@@ -63,9 +60,27 @@ function App() {
                             <Submission data={data} onNewGame={newGame} />
                             <Clues data={data} />
                         </>
-                        : <div style={{ minHeight: "500px" }}>
-                            <Spinner size="xl" className="ml-auto mr-auto spinner-spaced" />
-                        </div>
+                        : (
+                            hasError
+                                ? <Container fluid style={{ padding: "50px" }}>
+                                    <Row>
+                                        <Col md={3} />
+                                        <Col md={6}>
+                                            <p>
+                                                Something has gone wrong.
+                                                The site might be experiencing high traffic, or perhaps there is a bug preventing the page from loading.
+                                                You may attempt to try again by pressing the button below, but please do not spam it.
+                                            </p>
+                                        </Col>
+                                    </Row>
+                                    <Button onClick={() => { setHasError(false); newGame(); }} size="lg">
+                                        Reload
+                                    </Button>
+                                </Container>
+                                : <div style={{ minHeight: "400px" }}>
+                                    <Spinner size="xl" className="ml-auto mr-auto spinner-spaced" />
+                                </div>
+                        )
                 }
                 <Footer />
             </ScoreboardProvider>

@@ -1,14 +1,10 @@
 import React, { useState, useCallback, useContext } from 'react';
-import { Container, Row, Col, InputGroup, FormControl, Button, Alert } from 'react-bootstrap';
+import { Container, Row, Col, InputGroup, FormControl, Button, Alert, Toast } from 'react-bootstrap';
 
 import { GameCorrect, ScoreboardContext } from '../../contexts/ScoreboardContext';
 import useColorFlash from '../../hooks/useColorFlash';
 
 import './Submission.css';
-
-function checkGuess(guessText: string, answerText: string) {
-    return guessText.toLocaleLowerCase() === answerText.toLocaleLowerCase();
-}
 
 const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGame: () => void }) => {
 
@@ -16,8 +12,33 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
     const [guessCounter, setGuessCounter] = useState<number>(0);
     const [isGiveUp, setIsGiveUp] = useState(false);
     const [isWon, setIsWon] = useState(false);
+    const [isClose, setIsClose] = useState(false);
 
     const { saveScore, saveNewScore } = useContext(ScoreboardContext);
+
+    const showCloseOne = useCallback(
+        () => {
+            setIsClose(true);
+        },
+        []
+    );
+
+    const checkGuess = useCallback(
+        (guessText: string, answerText: string) => {
+            const cleanAnswerText = answerText.toLocaleLowerCase().replaceAll("_", "");
+            const cleanGuessText = guessText.toLocaleLowerCase().replaceAll("_", "");
+
+            if (
+                cleanAnswerText.includes(cleanGuessText)  // Is the guess a subset of the full answer?
+                && cleanAnswerText !== cleanGuessText // But not equal to the full answer...
+                && cleanAnswerText.length > 2 // And they are guessing more than 2 letters at a time...
+            ) {
+                showCloseOne();
+            }
+            return cleanAnswerText === cleanGuessText;
+        },
+        [showCloseOne]
+    );
 
     const resetGame = useCallback(
         () => {
@@ -48,7 +69,7 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
             }
             setGuessCounter(int => int + 1);
         },
-        [setGuessCounter, guessCounter, saveScore, data.subreddit, guessText]
+        [setGuessCounter, guessCounter, saveScore, data.subreddit, guessText, checkGuess]
     );
 
     const giveUp = useCallback(
@@ -82,6 +103,7 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
                                         aria-describedby="r-slash"
                                         value={guessText}
                                         onChange={(event) => { setGuessText(event.target.value); }}
+                                        onKeyPress={(keyEvent: React.KeyboardEvent<HTMLInputElement>) => { if (keyEvent.key === "Enter") { submitGuess(); } }}
                                     />
                                     <InputGroup.Append>
                                         <Button
@@ -99,6 +121,11 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
                                 </p>
                             </Col>
                         </Row>
+                        <Toast show={isClose} onClose={() => { setIsClose(false); }} delay={2500} autohide>
+                            <Toast.Body>
+                                That answer is pretty close, try adding more!
+                            </Toast.Body>
+                        </Toast>
                     </Container>
                 </Col>
                 <Col md={6}>

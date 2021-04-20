@@ -10,3 +10,13 @@
 #right-col { 
     padding-left: 5px;
 }
+
+@media screen and (max-width: 768px) {
+    #right-col {
+        padding-left: 15px;
+    }
+
+    #left-col {
+        padding-right: 15px;
+    }
+} 

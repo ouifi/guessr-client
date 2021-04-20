@@ -10,3 +10,11 @@
     font-size: small;
     margin: 1px
 }
+
+#clear-scoreboard {
+    font-size: small;
+}
+
+#clear-scoreboard:hover {
+    text-decoration: white wavy underline;
+}
