@@ -20,7 +20,7 @@ export type CluesProps = {
 };
 
 function postMapper(post: PostData, subreddit: string) {
-    return <Card key={post.title} imageLink={post.image} title={post.title}>
+    return <Card key={post.title} imageLink={post.image} title={censor(post.title, subreddit)}>
         <p className="clue-content">
             {censor(post.title, subreddit)}
         </p>
