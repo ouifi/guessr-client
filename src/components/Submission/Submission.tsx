@@ -14,6 +14,8 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
     const [isWon, setIsWon] = useState(false);
     const [isClose, setIsClose] = useState(false);
 
+    const isRevealed = isGiveUp || isWon;
+
     const { saveScore, saveNewScore } = useContext(ScoreboardContext);
 
     const showCloseOne = useCallback(
@@ -67,9 +69,12 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
                 setIsWon(true);
                 saveScore(data.subreddit, guessCounter + 1, GameCorrect.CORRECT);
             }
-            setGuessCounter(int => int + 1);
+
+            if (!isRevealed) {
+                setGuessCounter(int => int + 1);
+            }
         },
-        [setGuessCounter, guessCounter, saveScore, data.subreddit, guessText, checkGuess]
+        [setGuessCounter, guessCounter, saveScore, data.subreddit, guessText, checkGuess, isRevealed]
     );
 
     const giveUp = useCallback(
@@ -79,8 +84,6 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
         },
         [setIsGiveUp, saveScore, data.subreddit, guessCounter]
     );
-
-    const isRevealed = isGiveUp || isWon;
 
     const flashingAnimationStyle = useColorFlash(guessCounter);
 
