@@ -26,7 +26,6 @@
 }
 
 .image-wrapper-wrapper {
-    /* style={{ display: "flex", flexDirection: "column", justifyContent: "center" }} */
     display: flex;
     flex-direction: column;
     justify-content: center;
