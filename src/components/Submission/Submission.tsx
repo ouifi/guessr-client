@@ -3,6 +3,7 @@ import { Container, Row, Col, InputGroup, FormControl, Button, Alert, Toast } fr
 
 import { GameCorrect, ScoreboardContext } from '../../contexts/ScoreboardContext';
 import useColorFlash from '../../hooks/useColorFlash';
+import cleanString from '../../lib/cleanString';
 
 import './Submission.css';
 
@@ -27,13 +28,14 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
 
     const checkGuess = useCallback(
         (guessText: string, answerText: string) => {
-            const cleanAnswerText = answerText.toLowerCase().replaceAll("_", "");
-            const cleanGuessText = guessText.toLowerCase().replaceAll("_", "");
+            const cleanAnswerText = cleanString(answerText);
+            const cleanGuessText = cleanString(guessText);
 
             if (
-                cleanAnswerText.includes(cleanGuessText)  // Is the guess a subset of the full answer?
+                true
+                && cleanAnswerText.length > 2 // If they are guessing more than 2 letters at a time...
+                && cleanAnswerText.includes(cleanGuessText)  // Is the guess a subset of the full answer?
                 && cleanAnswerText !== cleanGuessText // But not equal to the full answer...
-                && cleanAnswerText.length > 2 // And they are guessing more than 2 letters at a time...
             ) {
                 showCloseOne();
             }
@@ -65,13 +67,15 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
 
     const submitGuess = useCallback(
         () => {
-            if (checkGuess(guessText, data.subreddit)) {
-                setIsWon(true);
-                saveScore(data.subreddit, guessCounter + 1, GameCorrect.CORRECT);
-            }
+            if (cleanString(guessText).length > 0) {
+                if (checkGuess(guessText, data.subreddit)) {
+                    setIsWon(true);
+                    saveScore(data.subreddit, guessCounter + 1, GameCorrect.CORRECT);
+                }
 
-            if (!isRevealed) {
-                setGuessCounter(int => int + 1);
+                if (!isRevealed) {
+                    setGuessCounter(int => int + 1);
+                }
             }
         },
         [setGuessCounter, guessCounter, saveScore, data.subreddit, guessText, checkGuess, isRevealed]
@@ -86,6 +90,17 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
     );
 
     const flashingAnimationStyle = useColorFlash(guessCounter);
+
+    const onEnterKeyPress = useCallback(
+        () => {
+            if (isRevealed) { // This basically allows someone who is very confident in their answer to stroke Enter twice and get a new game on the correct answer
+                newGame();
+            } else {
+                submitGuess();
+            }
+        },
+        [isRevealed, newGame, submitGuess]
+    );
 
     return <section>
         {/* The submission/answer line */}
@@ -106,7 +121,7 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
                                         aria-describedby="r-slash"
                                         value={guessText}
                                         onChange={(event) => { setGuessText(event.target.value); }}
-                                        onKeyPress={(keyEvent: React.KeyboardEvent<HTMLInputElement>) => { if (keyEvent.key === "Enter") { submitGuess(); } }}
+                                        onKeyPress={(keyEvent: React.KeyboardEvent<HTMLInputElement>) => { if (keyEvent.key === "Enter") { onEnterKeyPress(); } }}
                                         autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" // Disable all validation
                                     />
                                     <InputGroup.Append>
@@ -151,13 +166,13 @@ const Submission = ({ data, onNewGame }: { data: { subreddit: string }, onNewGam
                         !isRevealed && <Container fluid>
                             <Row>
                                 <Col md={1} />
-                                <Col md={5} style={{ margin: "5px" }}>
-                                    <Button variant="success" block style={{ fontSize: "larger" }} onClick={newGame}>
+                                <Col md={5} className="spaced-button-col">
+                                    <Button variant="success" block onClick={newGame}>
                                         New Game
                                     </Button>
                                 </Col>
-                                <Col md={5} style={{ margin: "5px" }}>
-                                    <Button variant="danger" block style={{ fontSize: "larger" }} onClick={giveUp}>
+                                <Col md={5} className="spaced-button-col">
+                                    <Button variant="danger" block onClick={giveUp}>
                                         Give up
                                     </Button>
                                 </Col>

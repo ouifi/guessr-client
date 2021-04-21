@@ -8,4 +8,12 @@
     .answer-text {
         font-size: 2rem;
     }
-} 
+}
+
+.spaced-button-col {
+    margin: 5px;
+}
+
+.spaced-button-col button {
+    font-size: larger;
+}
