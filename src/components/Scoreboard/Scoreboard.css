@@ -18,3 +18,10 @@
 #clear-scoreboard:hover {
     text-decoration: white wavy underline;
 }
+
+#scoreboard-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}

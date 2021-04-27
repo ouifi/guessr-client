@@ -1,0 +1,53 @@
+#nav-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    overflow: hidden;
+    width: 100%;
+}
+
+#nav-content a {
+    border: 1px solid rgba(0, 0, 0, 0); /* Fully transparent */
+    display: block;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+#nav-content a:hover {
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+#nav-hamburger {
+    display: none;
+}
+
+#nav-hamburger button{
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid lightsalmon;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    #nav-content {
+        display: block;
+        position: relative;
+    }
+
+    #nav-content a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+
+    #nav-content.nav-responsive a {
+        display: none;
+    }
+
+    #nav-hamburger {
+        display: inline-block;
+    }
+}

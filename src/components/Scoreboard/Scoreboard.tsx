@@ -13,7 +13,7 @@ const Scoreboard = () => {
     return (
         <Container id="scoreboard">
             <h3>Your Scoreboard <span id="clear-scoreboard" onClick={resetScoreboard}>(clear)</span></h3>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly", flexWrap: "wrap" }}>
+            <div id="scoreboard-content">
                 {
                     Object.keys(scoreboard).length
                         ? Object.entries(scoreboard)

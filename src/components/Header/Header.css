@@ -27,4 +27,8 @@
         font-size: 275%;
         color: white
     }
-} 
+}
+
+nav a#nav-selected {
+    text-decoration: underline dashed white;
+}
