@@ -15,7 +15,7 @@ const Nav = ({ children }: { children: React.ReactNode }) => {
             {children}
         </Col>
         <Col md={1} id="nav-hamburger">
-            <button  onClick={() => { setHideMenu(show => !show); }}>
+            <button  onClick={() => { setHideMenu(show => !show); }} style={{marginBottom: "-50px"}}>
                 <Icon>
                     <Hamburger wide height={30}/>
                 </Icon>
