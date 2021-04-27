@@ -2,15 +2,11 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import censor from '../../lib/censor';
+import { PostData } from '../../lib/api';
 
 import Card from '../Card/Card';
 
 import './Clues.css';
-
-export type PostData = {
-    title: string,
-    image: string | null
-}
 
 export type CluesProps = {
     data: {

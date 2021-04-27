@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 
-// eslint-disable-next-line no-unused-vars
-enum GameCorrect {
+export enum GameCorrect {
     INCORRECT = -1,
     UNFINISHED = 0,
     CORRECT = 1
-};
+}
 
 type ScoreboardEntry = {
     guesses: number,
@@ -14,13 +13,14 @@ type ScoreboardEntry = {
 
 type ScoreboardData = Record<string, ScoreboardEntry>;
 
+type Scoreboard = Record<string, ScoreboardData>;
+
 type ScoreboardContextType = {
     scoreboard: ScoreboardData,
     setEntry: (newData: ScoreboardData) => ScoreboardData
     saveScore: (subreddit: string, guesses: number, correct: GameCorrect) => string
     saveNewScore: (subreddit: string, guesses: number, correct: GameCorrect) => string
     resetScoreboard: () => void
-
 }
 
 const ScoreboardContext = React.createContext<ScoreboardContextType>({
@@ -31,35 +31,37 @@ const ScoreboardContext = React.createContext<ScoreboardContextType>({
     resetScoreboard: () => undefined
 });
 
-const ScoreboardProvider = ({ children }: { children: React.ReactNode }) => {
+const ScoreboardProvider = ({ children, scoreboardKey }: { children: React.ReactNode, scoreboardKey: string }) => {
 
-    const [scoreboardState, setScoreboardState] = useState<ScoreboardData>({});
+    const [scoreboardState, setScoreboardState] = useState<Scoreboard>({});
 
     useEffect(
         () => {
             const scoreboardSaveData = JSON.parse(localStorage.getItem("scoreboard") || "{}");
-            console.log("Retrieving save data from localStorage");
             setScoreboardState(scoreboardSaveData);
         },
-        []
+        [scoreboardKey]
     );
 
     const setSubredditEntry = useCallback(
         (newData: ScoreboardData) => {
             setScoreboardState(
-                oldData => {
-                    const retVal = {
-                        ...oldData,
-                        ...newData
+                oldScoreboard => {
+                    const newScoreboard = {
+                        ...oldScoreboard,
+                        [scoreboardKey]: {
+                            ...oldScoreboard[scoreboardKey],
+                            ...newData
+                        }
                     };
 
-                    localStorage.setItem("scoreboard", JSON.stringify(retVal));
-                    return retVal;
+                    localStorage.setItem("scoreboard", JSON.stringify(newScoreboard));
+                    return newScoreboard;
                 }
             );
             return newData;
         },
-        [setScoreboardState]
+        [setScoreboardState, scoreboardKey]
     );
 
     const saveScore = useCallback(
@@ -77,27 +79,12 @@ const ScoreboardProvider = ({ children }: { children: React.ReactNode }) => {
 
     const saveNewScore = useCallback(
         (subreddit: string, guesses: number, correct: GameCorrect) => {
-            setScoreboardState(
-                oldData => {
-                    if (!oldData[subreddit]) {
-                        return {
-                            ...oldData,
-                            [subreddit]: {
-                                guesses: guesses, 
-                                correct: correct
-                            }
-                        };
-                    } else {
-                        return {
-                            ...oldData
-                        };
-                    }
-                }
-            );
-
+            if (!scoreboardState[scoreboardKey][subreddit]) {
+                saveScore(subreddit, guesses, correct);
+            }
             return subreddit;
         },
-        []
+        [scoreboardState, scoreboardKey, saveScore]
     );
 
     const resetScoreboard = useCallback(
@@ -108,10 +95,10 @@ const ScoreboardProvider = ({ children }: { children: React.ReactNode }) => {
         []
     );
 
-    return <ScoreboardContext.Provider value={{ scoreboard: scoreboardState, setEntry: setSubredditEntry, saveScore: saveScore, saveNewScore: saveNewScore, resetScoreboard: resetScoreboard }}>
+    return <ScoreboardContext.Provider value={{ scoreboard: scoreboardState[scoreboardKey] || {}, setEntry: setSubredditEntry, saveScore: saveScore, saveNewScore: saveNewScore, resetScoreboard: resetScoreboard }}>
         {children}
     </ScoreboardContext.Provider>;
 };
 
 export default ScoreboardProvider;
-export { ScoreboardContext, GameCorrect };
+export { ScoreboardContext };

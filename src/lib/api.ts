@@ -33,4 +33,14 @@ class API {
     }
 }
 
+export type AppData = {
+    subreddit: string,
+    posts: PostData[]
+};
+
+export type PostData = {
+    title: string,
+    image: string | null
+}
+
 export default API;
